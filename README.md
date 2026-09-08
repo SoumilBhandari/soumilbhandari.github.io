@@ -19,6 +19,7 @@ into the phone, **View Resume** opens the PDF. The recipient installs nothing.
 | `og.png` | Link preview image — what shows when someone texts your link on. |
 | `share.html` | Fullscreen QR to show someone. Add to your home screen; it opens like an app. |
 | `nfc.html` | Writes the URL to a blank tag from the browser (Android Chrome), with a verify and a lock step. |
+| `hammerchip/` | Landing page for Hammer Chip — the project this card is the reference build of. |
 | `manifest.webmanifest` | Makes `share.html` installable and chrome-free. |
 | `robots.txt` | Card indexable; resume and vCard are not (see below). |
 | `.nojekyll` | Tells GitHub Pages to serve the files as-is. |

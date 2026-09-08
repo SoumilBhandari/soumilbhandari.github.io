@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Cardstock — the business card you own</title>
+<title>Hammer Chip — the business card you own</title>
 <meta name="description" content="An open-source digital business card. Tap or scan to share your contact details, resume and links from your own URL. No account, no subscription, no company in between.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0b0b0d">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Cardstock — the business card you own">
+<meta property="og:title" content="Hammer Chip — the business card you own">
 <meta property="og:description" content="Open-source digital business card. Your URL, your contacts, your card. Print and engraving artwork included.">
 <meta property="og:image" content="img/card-front.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b0b0d'/%3E%3Crect x='24' y='30' width='46' height='30' rx='5' fill='none' stroke='%23cfb991' stroke-width='5'/%3E%3Crect x='34' y='44' width='46' height='30' rx='5' fill='%230b0b0d' stroke='%23cfb991' stroke-width='5'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b0b0d'/%3E%3Crect x='31' y='31' width='38' height='38' rx='7' fill='none' stroke='%23cfb991' stroke-width='7'/%3E%3Cpath d='M42 31V17M58 31V17M42 69v14M58 69v14M31 42H17M31 58H17M69 42h14M69 58h14' stroke='%23cfb991' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
 
 <style>
   :root{
@@ -36,6 +36,12 @@
   }
   .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
   a{color:inherit}
+
+  /* Grid and flex children default to min-width:auto, so one unbreakable line
+     inside a <pre> or a table can push a track wider than the viewport and set
+     the whole page scrolling sideways. Opt every track out of that. */
+  .grid > *, .step > *, .split > *, .feat > *{min-width:0}
+  pre, .tablewrap{max-width:100%}
 
   h1,h2,h3{letter-spacing:-.025em;line-height:1.12;margin:0}
   h2{font-size:clamp(28px,4.4vw,42px);font-weight:600}
@@ -189,8 +195,8 @@
 <nav>
   <div class="wrap nav-in">
     <a class="brand" href="#top">
-      <svg viewBox="0 0 100 100" fill="none"><rect x="24" y="30" width="46" height="30" rx="5" stroke="#cfb991" stroke-width="6"/><rect x="34" y="44" width="46" height="30" rx="5" fill="#0b0b0d" stroke="#cfb991" stroke-width="6"/></svg>
-      Cardstock
+      <svg viewBox="0 0 100 100" fill="none"><rect x="31" y="31" width="38" height="38" rx="7" stroke="#cfb991" stroke-width="7"/><path d="M42 31V17M58 31V17M42 69v14M58 69v14M31 42H17M31 58H17M69 42h14M69 58h14" stroke="#cfb991" stroke-width="7" stroke-linecap="round"/></svg>
+      Hammer Chip
     </a>
     <div class="nav-links">
       <a class="hide-sm" href="#how">How it works</a>
@@ -221,7 +227,7 @@
   </div>
 
   <div class="stage">
-    <img src="img/card-front.png" alt="Front of a Cardstock business card, dark with name and title">
+    <img src="img/card-front.png" alt="Front of a Hammer Chip business card, dark with name and title">
     <img src="img/card-back.png" alt="Back of the card showing a QR code">
   </div>
 </header>
@@ -304,6 +310,8 @@
       <div><h3>Share screen</h3><p>Fullscreen QR that installs to your home screen and holds the display awake.</p></div>
       <div><h3>Link previews</h3><p>Open Graph image so your name shows when someone texts your link on.</p></div>
       <div><h3>Private by default</h3><p>Card indexable; resume and vCard kept out of search crawlers.</p></div>
+      <div><h3>No tracking</h3><p>Zero third-party requests. Nobody counts who taps your card, including us.</p></div>
+      <div><h3>Tap to copy</h3><p>One tap copies your email, for pasting straight into a recruiter's ATS.</p></div>
     </div>
   </div>
 </section>
@@ -341,7 +349,7 @@
     <div class="tablewrap">
       <table>
         <thead>
-          <tr><th></th><th>Cardstock</th><th>Hosted services</th></tr>
+          <tr><th></th><th>Hammer Chip</th><th>Hosted services</th></tr>
         </thead>
         <tbody>
           <tr><td>Cost</td><td>Free, permanently</td><td>$7–10 / month</td></tr>
@@ -377,7 +385,7 @@
 
 <footer>
   <div class="wrap foot">
-    <span>Cardstock — MIT licensed</span>
+    <span>Hammer Chip — MIT licensed</span>
     <span class="sp"></span>
     <a href="https://github.com/SoumilBhandari/soumilbhandari.github.io">Source</a>
     <a href="https://soumilbhandari.github.io">Live card</a>
