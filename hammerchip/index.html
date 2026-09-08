@@ -172,6 +172,40 @@
     transform:rotate(-45deg);
   }
 
+  /* ---------- try it ---------- */
+  .try-grid{display:grid;grid-template-columns:1fr auto;gap:clamp(32px,6vw,72px);align-items:center;margin-top:44px}
+  @media (max-width:860px){.try-grid{grid-template-columns:1fr;justify-items:center;text-align:center}}
+
+  .qr-card{
+    background:#fff;border-radius:16px;padding:18px;width:186px;
+    box-shadow:0 16px 40px -14px rgba(0,0,0,.7);
+  }
+  .qr-card img{display:block;width:100%;height:auto}
+  .qr-cap{margin-top:12px;font-size:12.5px;color:var(--dim);text-align:center;font-family:var(--mono)}
+
+  /* Phone bezel around a live iframe of the real card. */
+  .phone{
+    width:298px;flex:none;
+    border:9px solid #1c1c20;border-radius:38px;
+    background:#000;overflow:hidden;
+    box-shadow:0 30px 70px -22px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06);
+  }
+  .phone iframe{display:block;width:100%;height:560px;border:0;background:var(--bg)}
+  @media (max-width:400px){.phone{width:262px}.phone iframe{height:500px}}
+
+  .try-list{margin:24px 0 0;padding:0;list-style:none;display:grid;gap:12px;max-width:52ch}
+  .try-list li{padding-left:28px;position:relative;color:var(--muted);font-size:14.5px}
+  .try-list li b{color:var(--text);font-weight:600}
+  .try-list li::before{
+    counter-increment:tryc;content:counter(tryc);
+    position:absolute;left:0;top:1px;
+    width:18px;height:18px;border-radius:50%;
+    border:1px solid var(--accent-dim);color:var(--accent);
+    font-size:10px;font-family:var(--mono);
+    display:grid;place-items:center;
+  }
+  .try-list{counter-reset:tryc}
+
   /* ---------- waitlist ---------- */
   .nav-cta{
     color:var(--accent)!important;border:1px solid var(--accent-dim);
@@ -235,6 +269,7 @@
     <div class="nav-links">
       <a class="hide-sm" href="#how">How it works</a>
       <a class="hide-sm" href="#included">Included</a>
+      <a class="hide-sm" href="#try">Try it</a>
       <a class="hide-sm" href="#compare">Compare</a>
       <a href="#waitlist" class="nav-cta">Join waitlist</a>
     </div>
@@ -396,6 +431,49 @@
       The honest counterpoint: a hosted app works this afternoon, and a page you never
       finish building is worth nothing.
     </p>
+  </div>
+</section>
+
+<section class="rule" id="try">
+  <div class="wrap rv">
+    <p class="eyebrow">Try it</p>
+    <h2>You don’t need a card<br>to see it work.</h2>
+    <p class="lede" style="margin-top:20px">
+      The card is just a link on a chip. Everything it does, it does from any screen —
+      so the whole thing demos right now, on the phone in your pocket.
+    </p>
+
+    <div class="try-grid">
+      <div>
+        <ul class="try-list">
+          <li><b>Scan the code</b> with your phone camera. No app, nothing to install.</li>
+          <li><b>Hit Save Contact.</b> It writes straight into your address book like a real vCard.</li>
+          <li><b>Open the resume.</b> That’s the part hosted card apps won’t do.</li>
+          <li><b>Change your title later</b> and every card already handed out updates itself.</li>
+        </ul>
+        <div class="cta">
+          <a class="btn btn-ghost" href="https://soumilbhandari.github.io" target="_blank" rel="noopener">Open it full size</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="qr-card"><img src="img/qr.png" alt="QR code to a live Hammer Chip card" loading="lazy"></div>
+        <p class="qr-cap">point a camera here</p>
+      </div>
+    </div>
+
+    <div class="try-grid" style="margin-top:56px;grid-template-columns:auto 1fr">
+      <div class="phone">
+        <iframe src="https://soumilbhandari.github.io" title="A live Hammer Chip card" loading="lazy"></iframe>
+      </div>
+      <div>
+        <h3 style="font-size:19px">This is the real page.</h3>
+        <p class="lede" style="margin-top:12px;font-size:15px">
+          Not a mockup — that frame is the live card, loading the same way it does when
+          somebody taps the chip. Scroll it, tap the links, save the contact.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
