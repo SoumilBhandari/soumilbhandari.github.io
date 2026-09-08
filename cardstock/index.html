@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cardstock — the business card you own</title>
+<meta name="description" content="An open-source digital business card. Tap or scan to share your contact details, resume and links from your own URL. No account, no subscription, no company in between.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0b0d">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cardstock — the business card you own">
+<meta property="og:description" content="Open-source digital business card. Your URL, your contacts, your card. Print and engraving artwork included.">
+<meta property="og:image" content="img/card-front.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b0b0d'/%3E%3Crect x='24' y='30' width='46' height='30' rx='5' fill='none' stroke='%23cfb991' stroke-width='5'/%3E%3Crect x='34' y='44' width='46' height='30' rx='5' fill='%230b0b0d' stroke='%23cfb991' stroke-width='5'/%3E%3C/svg%3E">
+
+<style>
+  :root{
+    --bg:#0b0b0d; --surface:#141417; --surface-hi:#1a1a1e; --border:#26262b;
+    --text:#f3f1ed; --muted:#9d9993; --dim:#6e6a65;
+    --accent:#cfb991; --accent-dim:#8d7f5f;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    --max:1080px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  a{color:inherit}
+
+  h1,h2,h3{letter-spacing:-.025em;line-height:1.12;margin:0}
+  h2{font-size:clamp(28px,4.4vw,42px);font-weight:600}
+  h3{font-size:17px;font-weight:600;letter-spacing:-.01em}
+  p{margin:0}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent-dim);margin-bottom:16px;
+  }
+  .lede{color:var(--muted);font-size:clamp(15.5px,1.7vw,17.5px);max-width:60ch}
+
+  section{padding:clamp(72px,10vw,120px) 0;position:relative}
+  .rule{border-top:1px solid var(--border)}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,11,13,.82);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-in{display:flex;align-items:center;gap:24px;height:60px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;letter-spacing:-.02em;text-decoration:none;font-size:16px}
+  .brand svg{width:21px;height:21px;flex:none}
+  .nav-links{margin-left:auto;display:flex;align-items:center;gap:22px}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .15s}
+  .nav-links a:hover{color:var(--text)}
+  @media (max-width:680px){.nav-links .hide-sm{display:none}}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 22px;border-radius:11px;font-size:15px;font-weight:560;
+    text-decoration:none;border:1px solid transparent;white-space:nowrap;
+    transition:background .15s,border-color .15s,transform .12s;
+  }
+  .btn:active{transform:scale(.985)}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:var(--accent);color:#17150f}
+  .btn-primary:hover{background:#dcc9a4}
+  .btn-ghost{background:var(--surface);color:var(--text);border-color:var(--border)}
+  .btn-ghost:hover{background:var(--surface-hi);border-color:#35353c}
+
+  /* ---------- hero ---------- */
+  .hero{padding-top:clamp(56px,8vw,92px);padding-bottom:0;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:-200px 0 auto 0;height:640px;z-index:-1;
+    background:radial-gradient(60% 70% at 50% 30%, rgba(207,185,145,.13), transparent 70%);
+    pointer-events:none;
+  }
+  .hero h1{font-size:clamp(38px,6.6vw,68px);font-weight:600;max-width:15ch}
+  .hero .lede{margin-top:22px}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+  .hero-note{margin-top:18px;font-size:13px;color:var(--dim);font-family:var(--mono)}
+
+  .stage{
+    margin-top:clamp(48px,7vw,80px);
+    display:flex;justify-content:center;align-items:center;
+    perspective:1400px;padding-bottom:clamp(60px,8vw,100px);
+  }
+  .stage img{
+    width:min(46%,430px);border-radius:14px;display:block;
+    box-shadow:0 26px 60px -18px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.05);
+  }
+  .stage img:first-child{transform:rotate(-7deg) translateY(10px);z-index:2}
+  .stage img:last-child{transform:rotate(6deg) translateX(-34px);z-index:1}
+
+  /* ---------- generic grid ---------- */
+  .grid{display:grid;gap:16px;margin-top:44px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  @media (max-width:820px){.g3{grid-template-columns:1fr}.g2{grid-template-columns:1fr}}
+
+  .card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:15px;padding:24px;
+  }
+  .card p{color:var(--muted);font-size:14.5px;margin-top:9px}
+  .card .n{
+    font-family:var(--mono);font-size:11px;color:var(--accent-dim);
+    letter-spacing:.1em;margin-bottom:13px;
+  }
+
+  /* ---------- steps ---------- */
+  .step{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;padding:26px 0;border-top:1px solid var(--border)}
+  .step:last-child{border-bottom:1px solid var(--border)}
+  .step .num{
+    font-family:var(--mono);font-size:12px;color:var(--accent);
+    border:1px solid var(--accent-dim);border-radius:50%;
+    width:32px;height:32px;display:grid;place-items:center;margin-top:2px;
+  }
+  .step p{color:var(--muted);font-size:14.5px;margin-top:7px;max-width:56ch}
+  pre{
+    margin:15px 0 0;padding:14px 16px;overflow-x:auto;
+    background:#08080a;border:1px solid var(--border);border-radius:10px;
+    font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--muted);
+  }
+  pre .c{color:var(--dim)}
+  pre .k{color:var(--accent)}
+
+  /* ---------- features ---------- */
+  .feat{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:15px;overflow:hidden;margin-top:44px}
+  .feat > div{background:var(--bg);padding:22px}
+  .feat h3{font-size:14.5px}
+  .feat p{color:var(--muted);font-size:13.5px;margin-top:6px}
+
+  /* ---------- compare ---------- */
+  .tablewrap{margin-top:44px;overflow-x:auto;border:1px solid var(--border);border-radius:15px}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px}
+  th,td{text-align:left;padding:15px 18px;border-bottom:1px solid var(--border)}
+  tr:last-child td{border-bottom:none}
+  thead th{background:var(--surface);font-weight:600;font-size:13px}
+  thead th:nth-child(2){color:var(--accent)}
+  td:first-child{color:var(--muted)}
+  td:nth-child(2){font-weight:550}
+  td:nth-child(3){color:var(--dim)}
+
+  /* ---------- physical ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,60px);align-items:center}
+  @media (max-width:820px){.split{grid-template-columns:1fr}}
+  .split img{width:100%;border-radius:13px;display:block;box-shadow:0 18px 44px -16px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.05)}
+  .stack{display:grid;gap:14px}
+  .checks{margin:26px 0 0;padding:0;list-style:none;display:grid;gap:11px}
+  .checks li{padding-left:26px;position:relative;color:var(--muted);font-size:14.5px}
+  .checks li::before{
+    content:"";position:absolute;left:2px;top:7px;width:9px;height:5px;
+    border-left:1.8px solid var(--accent);border-bottom:1.8px solid var(--accent);
+    transform:rotate(-45deg);
+  }
+
+  /* ---------- final ---------- */
+  .final{text-align:center}
+  .final .cta{justify-content:center}
+  footer{border-top:1px solid var(--border);padding:36px 0;color:var(--dim);font-size:13px}
+  .foot{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .foot a{color:var(--muted);text-decoration:none}
+  .foot a:hover{color:var(--text)}
+  .foot .sp{margin-left:auto}
+
+  /* ---------- reveal ---------- */
+  /* Hidden only once JS has confirmed it is running — otherwise the page
+     renders fully with no animation, rather than staying blank. */
+  .js .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .js .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}}
+</style>
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 100 100" fill="none"><rect x="24" y="30" width="46" height="30" rx="5" stroke="#cfb991" stroke-width="6"/><rect x="34" y="44" width="46" height="30" rx="5" fill="#0b0b0d" stroke="#cfb991" stroke-width="6"/></svg>
+      Cardstock
+    </a>
+    <div class="nav-links">
+      <a class="hide-sm" href="#how">How it works</a>
+      <a class="hide-sm" href="#included">Included</a>
+      <a class="hide-sm" href="#compare">Compare</a>
+      <a href="https://github.com/SoumilBhandari/soumilbhandari.github.io">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Open source · MIT · No account</p>
+    <h1>The business card you actually own.</h1>
+    <p class="lede">
+      Tap or scan to hand someone your contact details, your resume and your links —
+      served from your own URL, hosted for nothing, with no company sitting in the middle.
+      Change your job title once and every card you have ever given out is current.
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/SoumilBhandari/soumilbhandari.github.io">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.9 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>
+        Get the template
+      </a>
+      <a class="btn btn-ghost" href="https://soumilbhandari.github.io">See a live card</a>
+    </div>
+    <p class="hero-note">No build step. No framework. No server.</p>
+  </div>
+
+  <div class="stage">
+    <img src="img/card-front.png" alt="Front of a Cardstock business card, dark with name and title">
+    <img src="img/card-back.png" alt="Back of the card showing a QR code">
+  </div>
+</header>
+
+<section class="rule" id="problem">
+  <div class="wrap rv">
+    <p class="eyebrow">The status quo</p>
+    <h2>What a card subscription<br>actually buys you.</h2>
+    <div class="grid g3">
+      <div class="card">
+        <div class="n">01</div>
+        <h3>Their name in front of yours</h3>
+        <p>You hand a recruiter a link that starts with somebody else's domain and ends in four random characters. On a page whose entire job is to be about you.</p>
+      </div>
+      <div class="card">
+        <div class="n">02</div>
+        <h3>Your network, behind a paywall</h3>
+        <p>Everyone who taps your card lands in the vendor's contact book. Getting that list back out as a CSV is a paid feature. It's your network, rented back to you.</p>
+      </div>
+      <div class="card">
+        <div class="n">03</div>
+        <h3>A monthly bill for a static page</h3>
+        <p>Underneath the app it is a mobile web page and a link on a chip. The page doesn't change. The subscription renews anyway.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rule" id="how">
+  <div class="wrap rv">
+    <p class="eyebrow">How it works</p>
+    <h2>Three steps, one evening.</h2>
+
+    <div class="step">
+      <div class="num">1</div>
+      <div>
+        <h3>Edit one file</h3>
+        <p>Your name, your links, your resume. It's plain HTML with the CSS inline — no framework, no build, nothing to install. If you can edit a text file you can ship this.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div>
+        <h3>Push it</h3>
+        <p>GitHub Pages serves it free over HTTPS, and points at your own domain if you have one. Deploys land in under a minute.</p>
+<pre><span class="c"># live at https://yourname.github.io</span>
+<span class="k">git</span> add -A &amp;&amp; <span class="k">git</span> commit -m <span class="c">"update"</span> &amp;&amp; <span class="k">git</span> push</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div>
+        <h3>Write the tag</h3>
+        <p>Thirty-three bytes of URL onto a forty-cent chip. The card stores the link, never the data — so a new job title costs you one push, not a reprint. Write it from the browser on Android, or a free app on iPhone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rule" id="included">
+  <div class="wrap rv">
+    <p class="eyebrow">What's included</p>
+    <h2>The whole card,<br>not just the web page.</h2>
+    <p class="lede" style="margin-top:20px">
+      Most open-source card projects hand you a profile page and stop. The hard part
+      is everything after that — the vCard that opens correctly on iOS, a QR that still
+      scans at 30mm, artwork a printer will accept.
+    </p>
+
+    <div class="feat">
+      <div><h3>Card page</h3><p>One self-contained HTML file. No dependencies, no build.</p></div>
+      <div><h3>Save Contact</h3><p>vCard 3.0 with CRLF endings, served so iOS opens the Add Contact sheet.</p></div>
+      <div><h3>Resume hosting</h3><p>The thing hosted card apps won't do. Your PDF, your URL.</p></div>
+      <div><h3>Vector QR</h3><p>SVG and PNG at error level Q. Crisp at any size, survives a wallet.</p></div>
+      <div><h3>NFC writer</h3><p>Write, verify and lock tags from the browser on Android. No app.</p></div>
+      <div><h3>Print artwork</h3><p>CR80 at exact size, plus a bleed version with crop marks.</p></div>
+      <div><h3>Engraving file</h3><p>Single-colour artwork for laser-engraving wood and bamboo blanks.</p></div>
+      <div><h3>Share screen</h3><p>Fullscreen QR that installs to your home screen and holds the display awake.</p></div>
+      <div><h3>Link previews</h3><p>Open Graph image so your name shows when someone texts your link on.</p></div>
+      <div><h3>Private by default</h3><p>Card indexable; resume and vCard kept out of search crawlers.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="rule" id="physical">
+  <div class="wrap rv">
+    <div class="split">
+      <div>
+        <p class="eyebrow">The physical half</p>
+        <h2>Artwork that a printer will take.</h2>
+        <p class="lede" style="margin-top:20px">
+          Every file is sized to CR80 — 85.5 × 54 mm, the same as a credit card — with
+          text kept 4 mm inside the trim so nothing important dies at the cut.
+        </p>
+        <ul class="checks">
+          <li>Trim version for UV printing onto blank NFC cards</li>
+          <li>Bleed version with crop marks outside the bleed, where a printer can see them</li>
+          <li>Engraving artwork for wood and bamboo, sized for a laser's bleed</li>
+          <li>Live vector text and QR — no rasterised type anywhere</li>
+          <li>QR decoded back out of a 300 dpi render, not assumed to work</li>
+        </ul>
+      </div>
+      <div class="stack">
+        <img src="img/engrave-front.png" alt="Laser-engraved bamboo card, front">
+        <img src="img/engrave-back.png" alt="Laser-engraved bamboo card with QR code">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rule" id="compare">
+  <div class="wrap rv">
+    <p class="eyebrow">Compare</p>
+    <h2>Against a hosted card app.</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th></th><th>Cardstock</th><th>Hosted services</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cost</td><td>Free, permanently</td><td>$7–10 / month</td></tr>
+          <tr><td>Your own domain</td><td>Any plan, it's your repo</td><td>Enterprise tier</td></tr>
+          <tr><td>Contact export</td><td>N/A — nobody collects them but you</td><td>Paid feature</td></tr>
+          <tr><td>Resume / file hosting</td><td>Included</td><td>Not supported</td></tr>
+          <tr><td>Print &amp; engraving artwork</td><td>Included, print-ready</td><td>Buy cards from them</td></tr>
+          <tr><td>Account required</td><td>None</td><td>Required</td></tr>
+          <tr><td>If the company folds</td><td>Static files. Nothing happens.</td><td>Dead link on a printed card</td></tr>
+          <tr><td>Source</td><td>MIT, forkable</td><td>Closed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hero-note" style="margin-top:18px">
+      The honest counterpoint: a hosted app works this afternoon, and a page you never
+      finish building is worth nothing.
+    </p>
+  </div>
+</section>
+
+<section class="rule final">
+  <div class="wrap rv">
+    <h2>Own the whole card.</h2>
+    <p class="lede" style="margin:20px auto 0">
+      Fork it, change your name, push. The chip is forty cents and the hosting is free.
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/SoumilBhandari/soumilbhandari.github.io">Get the template</a>
+      <a class="btn btn-ghost" href="https://soumilbhandari.github.io">See a live card</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>Cardstock — MIT licensed</span>
+    <span class="sp"></span>
+    <a href="https://github.com/SoumilBhandari/soumilbhandari.github.io">Source</a>
+    <a href="https://soumilbhandari.github.io">Live card</a>
+  </div>
+</footer>
+
+<script>
+  const items = document.querySelectorAll('.rv');
+  const revealAll = () => items.forEach(el => el.classList.add('in'));
+
+  if (!('IntersectionObserver' in window)) {
+    revealAll();
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }
+    }, { rootMargin: '0px 0px -12% 0px' });
+    items.forEach(el => io.observe(el));
+
+    // Failsafe: an observer that never fires (background tab, odd embedding,
+    // throttled rendering) must not leave the page permanently blank.
+    setTimeout(revealAll, 2500);
+  }
+</script>
+
+</body>
+</html>
