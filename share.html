@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scan me</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+
+<!-- Added to the home screen, this opens without browser chrome. -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="My Card">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+
+<style>
+  /* Pure white, full stop. A phone camera locks onto a QR fastest against a
+     bright white field, and a white screen is the brightest thing the panel
+     can show — which is the closest a web page can get to the brightness
+     boost a native app performs. */
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;overscroll-behavior:none}
+  body{
+    background:#fff;
+    color:#111;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    gap:22px;
+    padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));
+    -webkit-user-select:none;user-select:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .qr{width:min(78vw,78vh,430px)}
+  .qr img{display:block;width:100%;height:auto;image-rendering:pixelated}
+
+  .name{margin:0;font-size:20px;font-weight:600;letter-spacing:-.01em;text-align:center}
+  .url{margin:5px 0 0;font-size:14px;color:#8a8478;text-align:center}
+
+  .tip{
+    position:fixed;left:0;right:0;bottom:max(14px,env(safe-area-inset-bottom));
+    text-align:center;font-size:12px;color:#b8b2a6;
+    transition:opacity .5s ease;
+  }
+  .tip.hide{opacity:0}
+
+  /* Standalone (home-screen) mode doesn't need the "add to home screen" nudge. */
+  @media (display-mode:standalone){ .tip{display:none} }
+</style>
+</head>
+<body>
+
+  <div class="qr"><img src="qr.png" alt="QR code to soumilbhandari.github.io"></div>
+
+  <div>
+    <p class="name">Soumil Bhandari</p>
+    <p class="url">soumilbhandari.github.io</p>
+  </div>
+
+  <p class="tip" id="tip">Turn brightness up &middot; Share &rarr; Add to Home Screen</p>
+
+<script>
+  // Hold the screen awake so the QR doesn't dim mid-scan. Chrome + Safari 16.4+;
+  // silently a no-op everywhere else, which is fine.
+  let lock = null;
+  async function hold(){
+    try { lock = await navigator.wakeLock.request('screen'); } catch {}
+  }
+  if ('wakeLock' in navigator) {
+    hold();
+    // iOS drops the lock whenever the tab is backgrounded; take it again on return.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') hold();
+    });
+  }
+
+  setTimeout(() => document.getElementById('tip').classList.add('hide'), 6000);
+</script>
+
+</body>
+</html>
