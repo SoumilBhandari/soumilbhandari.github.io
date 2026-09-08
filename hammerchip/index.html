@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hammer Chip — the business card you own</title>
-<meta name="description" content="An open-source digital business card. Tap or scan to share your contact details, resume and links from your own URL. No account, no subscription, no company in between.">
+<meta name="description" content="A digital business card you own. Tap or scan to share your contact details, resume and links from your own URL. Join the waitlist for early access.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0b0b0d">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hammer Chip — the business card you own">
-<meta property="og:description" content="Open-source digital business card. Your URL, your contacts, your card. Print and engraving artwork included.">
+<meta property="og:description" content="A digital business card you own. Your URL, your contacts, your card — print and engraving artwork included. Join the waitlist.">
 <meta property="og:image" content="img/card-front.png">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -172,6 +172,40 @@
     transform:rotate(-45deg);
   }
 
+  /* ---------- waitlist ---------- */
+  .nav-cta{
+    color:var(--accent)!important;border:1px solid var(--accent-dim);
+    padding:7px 14px;border-radius:9px;font-weight:550;
+    transition:background .15s,border-color .15s;
+  }
+  .nav-cta:hover{background:rgba(207,185,145,.1);border-color:var(--accent)}
+
+  .wl{text-align:center}
+  .wl form{
+    display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+    max-width:520px;margin:32px auto 0;
+  }
+  .wl input[type=email]{
+    flex:1 1 260px;min-width:0;padding:14px 16px;
+    background:var(--surface);border:1px solid var(--border);border-radius:11px;
+    color:var(--text);font:inherit;font-size:15.5px;
+    transition:border-color .15s;
+  }
+  .wl input[type=email]::placeholder{color:var(--dim)}
+  .wl input[type=email]:focus{outline:none;border-color:var(--accent-dim);background:var(--surface-hi)}
+  .wl input[type=email]:disabled{opacity:.55}
+  .wl button{flex:0 0 auto;border:none;cursor:pointer;font:inherit}
+  .wl button:disabled{opacity:.55;cursor:default}
+  .wl .msg{
+    margin-top:18px;font-size:14.5px;min-height:22px;
+    color:var(--muted);transition:color .15s;
+  }
+  .wl .msg.ok{color:var(--accent)}
+  .wl .msg.err{color:#e07a6a}
+  .wl .fine{margin-top:14px;font-size:12.5px;color:var(--dim)}
+  /* Honeypot: hidden from people, tempting to bots. */
+  .hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+
   /* ---------- final ---------- */
   .final{text-align:center}
   .final .cta{justify-content:center}
@@ -202,14 +236,14 @@
       <a class="hide-sm" href="#how">How it works</a>
       <a class="hide-sm" href="#included">Included</a>
       <a class="hide-sm" href="#compare">Compare</a>
-      <a href="https://github.com/SoumilBhandari/soumilbhandari.github.io">GitHub</a>
+      <a href="#waitlist" class="nav-cta">Join waitlist</a>
     </div>
   </div>
 </nav>
 
 <header class="hero" id="top">
   <div class="wrap">
-    <p class="eyebrow">Open source · MIT · No account</p>
+    <p class="eyebrow">Early access · Waitlist open</p>
     <h1>The business card you actually own.</h1>
     <p class="lede">
       Tap or scan to hand someone your contact details, your resume and your links —
@@ -217,13 +251,10 @@
       Change your job title once and every card you have ever given out is current.
     </p>
     <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/SoumilBhandari/soumilbhandari.github.io">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.9 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>
-        Get the template
-      </a>
+      <a class="btn btn-primary" href="#waitlist">Join the waitlist</a>
       <a class="btn btn-ghost" href="https://soumilbhandari.github.io">See a live card</a>
     </div>
-    <p class="hero-note">No build step. No framework. No server.</p>
+    <p class="hero-note">Free while in early access.</p>
   </div>
 
   <div class="stage">
@@ -264,28 +295,27 @@
     <div class="step">
       <div class="num">1</div>
       <div>
-        <h3>Edit one file</h3>
-        <p>Your name, your links, your resume. It's plain HTML with the CSS inline — no framework, no build, nothing to install. If you can edit a text file you can ship this.</p>
+        <h3>Tell us who you are</h3>
+        <p>Name, title, links, and your resume. One short form — no account to create, no app to download.</p>
       </div>
     </div>
 
     <div class="step">
       <div class="num">2</div>
       <div>
-        <h3>Push it</h3>
-        <p>GitHub Pages serves it free over HTTPS, and points at your own domain if you have one. Deploys land in under a minute.</p>
-<pre><span class="c"># live at https://yourname.github.io</span>
-<span class="k">git</span> add -A &amp;&amp; <span class="k">git</span> commit -m <span class="c">"update"</span> &amp;&amp; <span class="k">git</span> push</pre>
+        <h3>Your page goes live</h3>
+        <p>A fast, mobile-first card at your own address, over HTTPS, pointed at a domain you own if you have one. Change your title later and it updates everywhere at once — including on every card you have already handed out.</p>
       </div>
     </div>
 
     <div class="step">
       <div class="num">3</div>
       <div>
-        <h3>Write the tag</h3>
-        <p>Thirty-three bytes of URL onto a forty-cent chip. The card stores the link, never the data — so a new job title costs you one push, not a reprint. Write it from the browser on Android, or a free app on iPhone.</p>
+        <h3>Hand someone the card</h3>
+        <p>They tap it, or scan the code on the back, and your page opens. Nothing to install on their side. The chip holds the link and never the data, which is why a new job never costs you a reprint.</p>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -294,17 +324,17 @@
     <p class="eyebrow">What's included</p>
     <h2>The whole card,<br>not just the web page.</h2>
     <p class="lede" style="margin-top:20px">
-      Most open-source card projects hand you a profile page and stop. The hard part
+      Most digital cards hand you a profile page and stop. The hard part
       is everything after that — the vCard that opens correctly on iOS, a QR that still
       scans at 30mm, artwork a printer will accept.
     </p>
 
     <div class="feat">
-      <div><h3>Card page</h3><p>One self-contained HTML file. No dependencies, no build.</p></div>
+      <div><h3>Your card page</h3><p>Opens instantly on any phone. Nothing for them to install.</p></div>
       <div><h3>Save Contact</h3><p>vCard 3.0 with CRLF endings, served so iOS opens the Add Contact sheet.</p></div>
       <div><h3>Resume hosting</h3><p>The thing hosted card apps won't do. Your PDF, your URL.</p></div>
       <div><h3>Vector QR</h3><p>SVG and PNG at error level Q. Crisp at any size, survives a wallet.</p></div>
-      <div><h3>NFC writer</h3><p>Write, verify and lock tags from the browser on Android. No app.</p></div>
+      <div><h3>Chip written &amp; locked</h3><p>Programmed before it reaches you, then locked so nobody can overwrite it.</p></div>
       <div><h3>Print artwork</h3><p>CR80 at exact size, plus a bleed version with crop marks.</p></div>
       <div><h3>Engraving file</h3><p>Single-colour artwork for laser-engraving wood and bamboo blanks.</p></div>
       <div><h3>Share screen</h3><p>Fullscreen QR that installs to your home screen and holds the display awake.</p></div>
@@ -353,13 +383,12 @@
         </thead>
         <tbody>
           <tr><td>Cost</td><td>Free, permanently</td><td>$7–10 / month</td></tr>
-          <tr><td>Your own domain</td><td>Any plan, it's your repo</td><td>Enterprise tier</td></tr>
+          <tr><td>Your own domain</td><td>Included on every plan</td><td>Enterprise tier</td></tr>
           <tr><td>Contact export</td><td>N/A — nobody collects them but you</td><td>Paid feature</td></tr>
           <tr><td>Resume / file hosting</td><td>Included</td><td>Not supported</td></tr>
           <tr><td>Print &amp; engraving artwork</td><td>Included, print-ready</td><td>Buy cards from them</td></tr>
-          <tr><td>Account required</td><td>None</td><td>Required</td></tr>
+          <tr><td>Lock-in</td><td>None — export and leave anytime</td><td>Card dies with the subscription</td></tr>
           <tr><td>If the company folds</td><td>Static files. Nothing happens.</td><td>Dead link on a printed card</td></tr>
-          <tr><td>Source</td><td>MIT, forkable</td><td>Closed</td></tr>
         </tbody>
       </table>
     </div>
@@ -370,29 +399,89 @@
   </div>
 </section>
 
-<section class="rule final">
+<section class="rule final wl" id="waitlist">
   <div class="wrap rv">
-    <h2>Own the whole card.</h2>
+    <p class="eyebrow">Early access</p>
+    <h2>Get the first batch.</h2>
     <p class="lede" style="margin:20px auto 0">
-      Fork it, change your name, push. The chip is forty cents and the hosting is free.
+      Cards go out in small runs. Leave your email and you'll hear when the next one
+      opens — nothing else, and one click unsubscribes.
     </p>
-    <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/SoumilBhandari/soumilbhandari.github.io">Get the template</a>
-      <a class="btn btn-ghost" href="https://soumilbhandari.github.io">See a live card</a>
-    </div>
+
+    <form id="wlForm" novalidate>
+      <label class="hp" aria-hidden="true">
+        Leave this empty <input type="text" name="company" tabindex="-1" autocomplete="off">
+      </label>
+      <input type="email" id="wlEmail" name="email" placeholder="you@purdue.edu"
+             autocomplete="email" required aria-label="Email address">
+      <button class="btn btn-primary" type="submit" id="wlBtn">Join the waitlist</button>
+    </form>
+
+    <p class="msg" id="wlMsg" role="status" aria-live="polite"></p>
+    <p class="fine">No spam, no sharing your address. Just a note when cards are ready.</p>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot">
-    <span>Hammer Chip — MIT licensed</span>
+    <span>Hammer Chip</span>
     <span class="sp"></span>
-    <a href="https://github.com/SoumilBhandari/soumilbhandari.github.io">Source</a>
+    <a href="#waitlist">Waitlist</a>
     <a href="https://soumilbhandari.github.io">Live card</a>
   </div>
 </footer>
 
 <script>
+  /* ---------------------------------------------------------------
+     WAITLIST
+     Set WAITLIST_ENDPOINT to a form endpoint that accepts a JSON POST
+     (Formspree, Basin, Getform all do). Until it is set, the form falls
+     back to opening a pre-filled email so the button is never dead.
+     --------------------------------------------------------------- */
+  const WAITLIST_ENDPOINT = "";                        // e.g. https://formspree.io/f/abcdwxyz
+  const FALLBACK_EMAIL    = "soumil.bhandari@gmail.com";
+
+  const form = document.getElementById('wlForm');
+  const email = document.getElementById('wlEmail');
+  const btn = document.getElementById('wlBtn');
+  const msg = document.getElementById('wlMsg');
+
+  const say = (text, kind) => { msg.textContent = text; msg.className = 'msg' + (kind ? ' ' + kind : ''); };
+  const valid = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (form.company.value) return;                    // bot filled the honeypot
+    const value = email.value.trim();
+
+    if (!valid(value)) { say('That email doesn\u2019t look right.', 'err'); email.focus(); return; }
+
+    if (!WAITLIST_ENDPOINT) {
+      // No endpoint configured yet — hand off to the mail client instead of failing.
+      say('Opening your email app\u2026');
+      location.href = 'mailto:' + FALLBACK_EMAIL
+        + '?subject=' + encodeURIComponent('Hammer Chip waitlist')
+        + '&body=' + encodeURIComponent('Add me to the waitlist: ' + value);
+      return;
+    }
+
+    btn.disabled = email.disabled = true;
+    say('Adding you\u2026');
+    try {
+      const res = await fetch(WAITLIST_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email: value, source: 'hammerchip landing' }),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      form.hidden = true;
+      say('You\u2019re on the list. Watch for an email when the next run opens.', 'ok');
+    } catch {
+      btn.disabled = email.disabled = false;
+      say('That didn\u2019t go through. Email ' + FALLBACK_EMAIL + ' and I\u2019ll add you.', 'err');
+    }
+  });
+
   const items = document.querySelectorAll('.rv');
   const revealAll = () => items.forEach(el => el.classList.add('in'));
 
