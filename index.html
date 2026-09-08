@@ -172,6 +172,48 @@
   }
   .now strong{color:var(--text);font-weight:550}
 
+  /* ---------- send to inbox ---------- */
+  .inbox{
+    margin-top:14px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+    padding:16px;
+  }
+  .inbox h2{
+    margin:0 0 4px;
+    font-size:11px;font-weight:600;
+    letter-spacing:.09em;text-transform:uppercase;
+    color:var(--accent-dim);
+  }
+  .inbox .sub{margin:0 0 13px;font-size:13.5px;color:var(--muted)}
+  .inbox form{display:flex;gap:8px}
+  .inbox input[type=email]{
+    flex:1;min-width:0;
+    padding:12px 13px;
+    background:#0d0d10;border:1px solid var(--border);border-radius:10px;
+    color:var(--text);font:inherit;font-size:15px;
+    transition:border-color .15s;
+  }
+  .inbox input[type=email]::placeholder{color:#5f5b57}
+  .inbox input[type=email]:focus{outline:none;border-color:var(--accent-dim)}
+  .inbox input[type=email]:disabled{opacity:.5}
+  .inbox button{
+    flex:none;padding:12px 17px;
+    border:none;border-radius:10px;
+    background:var(--accent);color:#17150f;
+    font:inherit;font-size:15px;font-weight:560;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .15s,transform .12s;
+  }
+  .inbox button:active{transform:scale(.98)}
+  .inbox button:disabled{opacity:.5;cursor:default;transform:none}
+  .inbox .msg{margin:11px 0 0;font-size:13.5px;color:var(--muted);min-height:19px}
+  .inbox .msg.ok{color:var(--accent)}
+  .inbox .msg.err{color:#e07a6a}
+  /* Hidden from people, tempting to bots. */
+  .hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+
   /* ---------- footer ---------- */
   footer{margin-top:20px;text-align:center}
   .share{
@@ -265,10 +307,26 @@
   <section class="now">
     <h2>Currently</h2>
     <ul>
-      <li><strong>Perforated AI</strong> &mdash; researching dendritic model compression</li>
+      <li><strong>Perforated AI</strong>, researching dendritic model compression</li>
       <li>Previously <strong>Harvard Medical School</strong>, <strong>McKesson</strong>, and <strong>IIT Roorkee</strong></li>
       <li>Named inventor on <strong>3 provisional US patents</strong> in multimodal neurodegenerative modeling</li>
     </ul>
+  </section>
+
+  <!-- Stays hidden until an endpoint is configured, so a recruiter never
+       meets a form that silently fails. -->
+  <section class="inbox" id="inbox" hidden>
+    <h2>Send it to your inbox</h2>
+    <p class="sub">Get the resume by email, so it's waiting when you're back at your desk.</p>
+    <form id="inboxForm" novalidate>
+      <label class="hp" aria-hidden="true">
+        Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off">
+      </label>
+      <input type="email" id="inboxEmail" placeholder="you@company.com"
+             autocomplete="email" required aria-label="Your email address">
+      <button type="submit" id="inboxBtn">Send</button>
+    </form>
+    <p class="msg" id="inboxMsg" role="status" aria-live="polite"></p>
   </section>
 
   <footer>
@@ -320,6 +378,50 @@
       toast('Copied');
     });
   });
+
+  /* ---------------------------------------------------------------
+     SEND THE RESUME TO A VISITOR'S INBOX
+     Point RESUME_ENDPOINT at something that accepts a JSON POST and mails
+     them the resume. apps-script/mail-resume.gs in this repo is a free
+     backend that also logs every address to a spreadsheet.
+     While this is empty the whole section stays hidden.
+     --------------------------------------------------------------- */
+  const RESUME_ENDPOINT = "";
+
+  if (RESUME_ENDPOINT) {
+    const box  = document.getElementById('inbox');
+    const form = document.getElementById('inboxForm');
+    const mail = document.getElementById('inboxEmail');
+    const send = document.getElementById('inboxBtn');
+    const note = document.getElementById('inboxMsg');
+    box.hidden = false;
+
+    const tell  = (t, k) => { note.textContent = t; note.className = 'msg' + (k ? ' ' + k : ''); };
+    const valid = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (form.website.value) return;                 // bot took the bait
+      const to = mail.value.trim();
+      if (!valid(to)) { tell('That email doesn\u2019t look right.', 'err'); mail.focus(); return; }
+
+      send.disabled = mail.disabled = true;
+      tell('Sending\u2026');
+      try {
+        const res = await fetch(RESUME_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },  // keeps it a simple request, no CORS preflight
+          body: JSON.stringify({ email: to, source: 'card' }),
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        form.hidden = true;
+        tell('Sent. Check your inbox in a minute.', 'ok');
+      } catch {
+        send.disabled = mail.disabled = false;
+        tell('That didn\u2019t send. The resume button above still works.', 'err');
+      }
+    });
+  }
 
   document.getElementById('shareBtn').addEventListener('click', async () => {
     const url = location.href.split('#')[0];
