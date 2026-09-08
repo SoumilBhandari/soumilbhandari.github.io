@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hammer Chip — the business card you own</title>
+<title>Hammer Chip | The business card you own</title>
 <meta name="description" content="A digital business card you own. Tap or scan to share your contact details, resume and links from your own URL. Join the waitlist for early access.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0b0b0d">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Hammer Chip — the business card you own">
-<meta property="og:description" content="A digital business card you own. Your URL, your contacts, your card — print and engraving artwork included. Join the waitlist.">
+<meta property="og:title" content="Hammer Chip | The business card you own">
+<meta property="og:description" content="A digital business card you own. Your URL, your contacts, your card, with print and engraving artwork included. Join the waitlist.">
 <meta property="og:image" content="img/card-front.png">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -98,16 +98,44 @@
   .hero-note{margin-top:18px;font-size:13px;color:var(--dim);font-family:var(--mono)}
 
   .stage{
+    position:relative;
     margin-top:clamp(48px,7vw,80px);
     display:flex;justify-content:center;align-items:center;
     perspective:1400px;padding-bottom:clamp(60px,8vw,100px);
   }
+  .stage::after{
+    content:"";position:absolute;z-index:0;
+    left:50%;bottom:clamp(46px,7vw,84px);transform:translateX(-50%);
+    width:min(78%,660px);height:120px;border-radius:50%;
+    background:radial-gradient(ellipse at center, rgba(207,185,145,.16), transparent 70%);
+    filter:blur(24px);pointer-events:none;
+  }
   .stage img{
+    position:relative;z-index:1;
     width:min(46%,430px);border-radius:14px;display:block;
     box-shadow:0 26px 60px -18px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.05);
   }
-  .stage img:first-child{transform:rotate(-7deg) translateY(10px);z-index:2}
-  .stage img:last-child{transform:rotate(6deg) translateX(-34px);z-index:1}
+  /* The pair fans open on load. fill-mode is `backwards`, not `both`, so the
+     element keeps its own transform afterwards and the hover transition below
+     still has something to animate from. Nothing is hidden at any point. */
+  @keyframes fanA{from{transform:rotate(1deg) translateY(40px)}}
+  @keyframes fanB{from{transform:rotate(-1deg) translateX(-72px) translateY(40px)}}
+  .stage img{transition:transform .45s cubic-bezier(.22,1,.36,1)}
+  .stage img:first-child{
+    transform:rotate(-7deg) translateY(10px);z-index:2;
+    animation:fanA .95s cubic-bezier(.2,1,.32,1) backwards;
+  }
+  .stage img:last-child{
+    transform:rotate(6deg) translateX(-34px);z-index:1;
+    animation:fanB .95s .07s cubic-bezier(.2,1,.32,1) backwards;
+  }
+  @media (hover:hover){
+    .stage:hover img:first-child{transform:rotate(-9.5deg) translateY(0) translateX(-16px)}
+    .stage:hover img:last-child{transform:rotate(8.5deg) translateX(-16px) translateY(-8px)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .stage img{animation:none;transition:none}
+  }
 
   /* ---------- generic grid ---------- */
   .grid{display:grid;gap:16px;margin-top:44px}
@@ -183,15 +211,33 @@
   .qr-card img{display:block;width:100%;height:auto}
   .qr-cap{margin-top:12px;font-size:12.5px;color:var(--dim);text-align:center;font-family:var(--mono)}
 
-  /* Phone bezel around a live iframe of the real card. */
-  .phone{
-    width:298px;flex:none;
-    border:9px solid #1c1c20;border-radius:38px;
-    background:#000;overflow:hidden;
-    box-shadow:0 30px 70px -22px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06);
+  /* iPhone: brushed titanium rail, Dynamic Island, real side buttons. */
+  .iphone{
+    position:relative;width:300px;flex:none;padding:10px;
+    border-radius:56px;
+    background:linear-gradient(148deg,#61616a 0%,#2a2a31 15%,#0f0f13 40%,#1d1d23 68%,#55555e 100%);
+    box-shadow:0 44px 90px -34px rgba(0,0,0,.95), 0 0 0 1px rgba(255,255,255,.07);
   }
-  .phone iframe{display:block;width:100%;height:560px;border:0;background:var(--bg)}
-  @media (max-width:400px){.phone{width:262px}.phone iframe{height:500px}}
+  .iphone .screen{
+    position:relative;border-radius:47px;overflow:hidden;
+    background:#000;aspect-ratio:9/19.5;
+    box-shadow:inset 0 0 0 2px rgba(0,0,0,.85);
+  }
+  .iphone .screen iframe{display:block;width:100%;height:100%;border:0;background:var(--bg)}
+  .iphone .island{
+    position:absolute;top:13px;left:50%;transform:translateX(-50%);
+    width:84px;height:25px;border-radius:13px;background:#000;
+    z-index:3;pointer-events:none;
+  }
+  .iphone .side{
+    position:absolute;width:3px;border-radius:3px;
+    background:linear-gradient(180deg,#6a6a74,#22222a);
+  }
+  .iphone .side.a{left:-3px;top:104px;height:28px}
+  .iphone .side.b{left:-3px;top:150px;height:50px}
+  .iphone .side.c{left:-3px;top:214px;height:50px}
+  .iphone .side.d{right:-3px;top:172px;height:78px}
+  @media (max-width:400px){.iphone{width:264px;border-radius:48px}.iphone .screen{border-radius:40px}}
 
   .try-list{margin:24px 0 0;padding:0;list-style:none;display:grid;gap:12px;max-width:52ch}
   .try-list li{padding-left:28px;position:relative;color:var(--muted);font-size:14.5px}
@@ -250,7 +296,7 @@
   .foot .sp{margin-left:auto}
 
   /* ---------- reveal ---------- */
-  /* Hidden only once JS has confirmed it is running — otherwise the page
+  /* Hidden only once JS has confirmed it is running. Otherwise the page
      renders fully with no animation, rather than staying blank. */
   .js .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
   .js .rv.in{opacity:1;transform:none}
@@ -281,7 +327,7 @@
     <p class="eyebrow">Early access · Waitlist open</p>
     <h1>The business card you actually own.</h1>
     <p class="lede">
-      Tap or scan to hand someone your contact details, your resume and your links —
+      Tap or scan to hand someone your contact details, your resume and your links,
       served from your own URL, hosted for nothing, with no company sitting in the middle.
       Change your job title once and every card you have ever given out is current.
     </p>
@@ -331,7 +377,7 @@
       <div class="num">1</div>
       <div>
         <h3>Tell us who you are</h3>
-        <p>Name, title, links, and your resume. One short form — no account to create, no app to download.</p>
+        <p>Name, title, links, and your resume. One short form. No account to create, no app to download.</p>
       </div>
     </div>
 
@@ -339,7 +385,7 @@
       <div class="num">2</div>
       <div>
         <h3>Your page goes live</h3>
-        <p>A fast, mobile-first card at your own address, over HTTPS, pointed at a domain you own if you have one. Change your title later and it updates everywhere at once — including on every card you have already handed out.</p>
+        <p>A fast, mobile-first card at your own address, over HTTPS, pointed at a domain you own if you have one. Change your title later and it updates everywhere at once, including on every card you have already handed out.</p>
       </div>
     </div>
 
@@ -360,7 +406,7 @@
     <h2>The whole card,<br>not just the web page.</h2>
     <p class="lede" style="margin-top:20px">
       Most digital cards hand you a profile page and stop. The hard part
-      is everything after that — the vCard that opens correctly on iOS, a QR that still
+      is everything after that: the vCard that opens correctly on iOS, a QR that still
       scans at 30mm, artwork a printer will accept.
     </p>
 
@@ -388,14 +434,14 @@
         <p class="eyebrow">The physical half</p>
         <h2>Artwork that a printer will take.</h2>
         <p class="lede" style="margin-top:20px">
-          Every file is sized to CR80 — 85.5 × 54 mm, the same as a credit card — with
+          Every file is sized to CR80 (85.5 × 54 mm, the same as a credit card), with
           text kept 4 mm inside the trim so nothing important dies at the cut.
         </p>
         <ul class="checks">
           <li>Trim version for UV printing onto blank NFC cards</li>
           <li>Bleed version with crop marks outside the bleed, where a printer can see them</li>
           <li>Engraving artwork for wood and bamboo, sized for a laser's bleed</li>
-          <li>Live vector text and QR — no rasterised type anywhere</li>
+          <li>Live vector text and QR, so no rasterised type anywhere</li>
           <li>QR decoded back out of a 300 dpi render, not assumed to work</li>
         </ul>
       </div>
@@ -419,10 +465,10 @@
         <tbody>
           <tr><td>Cost</td><td>Free, permanently</td><td>$7–10 / month</td></tr>
           <tr><td>Your own domain</td><td>Included on every plan</td><td>Enterprise tier</td></tr>
-          <tr><td>Contact export</td><td>N/A — nobody collects them but you</td><td>Paid feature</td></tr>
+          <tr><td>Contact export</td><td>N/A. Nobody collects them but you</td><td>Paid feature</td></tr>
           <tr><td>Resume / file hosting</td><td>Included</td><td>Not supported</td></tr>
           <tr><td>Print &amp; engraving artwork</td><td>Included, print-ready</td><td>Buy cards from them</td></tr>
-          <tr><td>Lock-in</td><td>None — export and leave anytime</td><td>Card dies with the subscription</td></tr>
+          <tr><td>Lock-in</td><td>None. Export and leave anytime</td><td>Card dies with the subscription</td></tr>
           <tr><td>If the company folds</td><td>Static files. Nothing happens.</td><td>Dead link on a printed card</td></tr>
         </tbody>
       </table>
@@ -439,7 +485,7 @@
     <p class="eyebrow">Try it</p>
     <h2>You don’t need a card<br>to see it work.</h2>
     <p class="lede" style="margin-top:20px">
-      The card is just a link on a chip. Everything it does, it does from any screen —
+      The card is just a link on a chip. Everything it does, it does from any screen,
       so the whole thing demos right now, on the phone in your pocket.
     </p>
 
@@ -462,14 +508,19 @@
       </div>
     </div>
 
-    <div class="try-grid" style="margin-top:56px;grid-template-columns:auto 1fr">
-      <div class="phone">
-        <iframe src="https://soumilbhandari.github.io" title="A live Hammer Chip card" loading="lazy"></iframe>
+    <div class="try-grid" style="margin-top:64px;grid-template-columns:auto 1fr">
+      <div class="iphone">
+        <span class="side a"></span><span class="side b"></span>
+        <span class="side c"></span><span class="side d"></span>
+        <div class="screen">
+          <span class="island"></span>
+          <iframe src="https://soumilbhandari.github.io" title="A live Hammer Chip card" loading="lazy"></iframe>
+        </div>
       </div>
       <div>
         <h3 style="font-size:19px">This is the real page.</h3>
         <p class="lede" style="margin-top:12px;font-size:15px">
-          Not a mockup — that frame is the live card, loading the same way it does when
+          Not a mockup. That frame is the live card, loading the same way it does when
           somebody taps the chip. Scroll it, tap the links, save the contact.
         </p>
       </div>
@@ -483,7 +534,7 @@
     <h2>Get the first batch.</h2>
     <p class="lede" style="margin:20px auto 0">
       Cards go out in small runs. Leave your email and you'll hear when the next one
-      opens — nothing else, and one click unsubscribes.
+      opens. Nothing else, and one click unsubscribes.
     </p>
 
     <form id="wlForm" novalidate>
@@ -535,7 +586,7 @@
     if (!valid(value)) { say('That email doesn\u2019t look right.', 'err'); email.focus(); return; }
 
     if (!WAITLIST_ENDPOINT) {
-      // No endpoint configured yet — hand off to the mail client instead of failing.
+      // No endpoint configured yet, so hand off to the mail client instead of failing.
       say('Opening your email app\u2026');
       location.href = 'mailto:' + FALLBACK_EMAIL
         + '?subject=' + encodeURIComponent('Hammer Chip waitlist')
