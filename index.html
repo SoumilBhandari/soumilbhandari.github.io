@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soumil Bhandari</title>
+<meta name="description" content="Computer Engineering @ Purdue. AI Researcher at Perforated AI. Resume, contact, and links.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0b0d">
+
+<!-- Link preview: this is what a recruiter sees when they text your link on. -->
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Soumil Bhandari">
+<meta property="og:description" content="Computer Engineering @ Purdue · AI Researcher at Perforated AI">
+<meta property="og:image" content="og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b0b0d'/%3E%3Ctext x='50' y='50' font-family='-apple-system,Segoe UI,sans-serif' font-size='42' font-weight='600' fill='%23cfb991' text-anchor='middle' dominant-baseline='central'%3ESB%3C/text%3E%3C/svg%3E">
+
+<style>
+  :root{
+    --bg:#0b0b0d;
+    --surface:#141417;
+    --surface-hi:#1b1b1f;
+    --border:#26262b;
+    --text:#f3f1ed;
+    --muted:#9d9993;
+    --accent:#cfb991;
+    --accent-dim:#8d7f5f;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    justify-content:center;
+    padding:max(24px,env(safe-area-inset-top)) 20px max(32px,env(safe-area-inset-bottom));
+  }
+
+  /* Warm wash behind the header so the page doesn't read as a flat black rectangle. */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0 0 auto 0;
+    height:340px;
+    background:radial-gradient(120% 100% at 50% 0%, rgba(207,185,145,.13), transparent 70%);
+    pointer-events:none;
+  }
+
+  .card{position:relative;width:100%;max-width:420px}
+
+  /* ---------- header ---------- */
+  header{text-align:center;padding:8px 0 26px}
+
+  .avatar{
+    width:84px;height:84px;margin:0 auto 18px;
+    border-radius:50%;
+    display:grid;place-items:center;
+    background:linear-gradient(150deg,#22201c,#141417);
+    border:1px solid var(--border);
+    box-shadow:0 0 0 4px rgba(207,185,145,.07);
+    font-size:30px;font-weight:600;letter-spacing:.02em;
+    color:var(--accent);
+    overflow:hidden;
+  }
+  /* To use a real photo: put photo.jpg next to this file and swap the .avatar
+     div in the markup for  <img class="avatar" src="photo.jpg" alt="Soumil Bhandari"> */
+  img.avatar{object-fit:cover}
+
+  h1{
+    margin:0 0 6px;
+    font-size:31px;
+    font-weight:600;
+    letter-spacing:-.021em;
+  }
+  .role{margin:0;font-size:15.5px;color:var(--text)}
+  .sub{margin:3px 0 0;font-size:14px;color:var(--muted)}
+
+  /* ---------- primary actions ---------- */
+  .actions{display:grid;gap:10px;margin-bottom:10px}
+
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    padding:15px 18px;
+    border-radius:var(--radius);
+    font-size:16px;font-weight:560;
+    text-decoration:none;
+    border:1px solid transparent;
+    transition:transform .12s ease, background .15s ease, border-color .15s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:active{transform:scale(.985)}
+  .btn svg{width:18px;height:18px;flex:none}
+
+  .btn-primary{background:var(--accent);color:#17150f}
+  .btn-secondary{background:var(--surface);color:var(--text);border-color:var(--border)}
+  @media (hover:hover){
+    .btn-primary:hover{background:#dcc9a4}
+    .btn-secondary:hover{background:var(--surface-hi);border-color:#34343a}
+  }
+
+  /* ---------- link rows ---------- */
+  .links{
+    margin:18px 0 0;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+    overflow:hidden;
+  }
+  .row{
+    display:flex;align-items:center;gap:13px;
+    padding:14px 15px;
+    text-decoration:none;color:var(--text);
+    border-bottom:1px solid var(--border);
+    -webkit-tap-highlight-color:transparent;
+    transition:background .15s ease;
+  }
+  .row:last-child{border-bottom:none}
+  @media (hover:hover){.row:hover{background:var(--surface-hi)}}
+  .row:active{background:var(--surface-hi)}
+
+  .row .ico{width:19px;height:19px;flex:none;color:var(--muted)}
+  .row .txt{flex:1;min-width:0}
+  .row .label{font-size:14.5px;font-weight:500}
+  .row .value{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .chev{width:15px;height:15px;flex:none;color:#4a4a52}
+
+  /* copy button lives inside a row without nesting a button in the <a> */
+  .row-wrap{display:flex;align-items:stretch;border-bottom:1px solid var(--border)}
+  .row-wrap:last-child{border-bottom:none}
+  .row-wrap .row{flex:1;border-bottom:none}
+  .copy{
+    flex:none;width:48px;
+    background:none;border:none;border-left:1px solid var(--border);
+    color:var(--muted);cursor:pointer;
+    display:grid;place-items:center;
+    font:inherit;font-size:11px;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .15s ease,color .15s ease;
+  }
+  .copy svg{width:16px;height:16px}
+  @media (hover:hover){.copy:hover{background:var(--surface-hi);color:var(--text)}}
+  .copy.done{color:var(--accent)}
+
+  /* ---------- currently ---------- */
+  .now{
+    margin-top:18px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+    padding:15px 16px;
+  }
+  .now h2{
+    margin:0 0 11px;
+    font-size:11px;font-weight:600;
+    letter-spacing:.09em;text-transform:uppercase;
+    color:var(--accent-dim);
+  }
+  .now ul{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+  .now li{font-size:13.5px;color:var(--muted);padding-left:15px;position:relative}
+  .now li::before{
+    content:"";position:absolute;left:0;top:8px;
+    width:5px;height:5px;border-radius:50%;background:var(--accent-dim);
+  }
+  .now strong{color:var(--text);font-weight:550}
+
+  /* ---------- footer ---------- */
+  footer{margin-top:20px;text-align:center}
+  .share{
+    background:none;border:none;
+    color:var(--muted);font:inherit;font-size:13px;
+    cursor:pointer;padding:9px 14px;border-radius:9px;
+    display:inline-flex;align-items:center;gap:7px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .share svg{width:14px;height:14px}
+  @media (hover:hover){.share:hover{color:var(--text)}}
+
+  /* toast */
+  #toast{
+    position:fixed;left:50%;bottom:28px;
+    transform:translate(-50%,14px);
+    background:var(--accent);color:#17150f;
+    padding:9px 17px;border-radius:999px;
+    font-size:13.5px;font-weight:560;
+    opacity:0;pointer-events:none;
+    transition:opacity .2s ease,transform .2s ease;
+    z-index:10;
+  }
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<main class="card">
+
+  <header>
+    <div class="avatar">SB</div>
+    <h1>Soumil Bhandari</h1>
+    <p class="role">AI Researcher at Perforated AI</p>
+    <p class="sub">B.S. Computer Engineering &middot; Purdue University</p>
+  </header>
+
+  <div class="actions">
+    <!-- No download attribute on purpose: navigating straight to the .vcf makes
+         iOS open the "Add Contact" sheet instead of dumping it into Files. -->
+    <a class="btn btn-primary" href="contact.vcf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      Save Contact
+    </a>
+    <a class="btn btn-secondary" href="resume.pdf" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      View Resume
+    </a>
+  </div>
+
+  <nav class="links">
+
+    <div class="row-wrap">
+      <a class="row" href="mailto:soumil.bhandari@gmail.com">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        <span class="txt">
+          <span class="label">Email</span><br>
+          <span class="value">soumil.bhandari@gmail.com</span>
+        </span>
+      </a>
+      <button class="copy" data-copy="soumil.bhandari@gmail.com" aria-label="Copy email address">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+    </div>
+
+    <div class="row-wrap">
+      <a class="row" href="tel:+17038434857">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span class="txt">
+          <span class="label">Phone</span><br>
+          <span class="value">(703) 843-4857</span>
+        </span>
+      </a>
+      <button class="copy" data-copy="+17038434857" aria-label="Copy phone number">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+    </div>
+
+    <a class="row" href="https://www.linkedin.com/in/soumilbhandari" target="_blank" rel="noopener">
+      <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.47-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+      <span class="txt">
+        <span class="label">LinkedIn</span><br>
+        <span class="value">in/soumilbhandari</span>
+      </span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+
+    <a class="row" href="https://github.com/soumilbhandari" target="_blank" rel="noopener">
+      <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.9 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>
+      <span class="txt">
+        <span class="label">GitHub</span><br>
+        <span class="value">@soumilbhandari</span>
+      </span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+
+  </nav>
+
+  <section class="now">
+    <h2>Currently</h2>
+    <ul>
+      <li><strong>Perforated AI</strong> &mdash; researching dendritic model compression</li>
+      <li>Previously <strong>Harvard Medical School</strong>, <strong>McKesson</strong>, and <strong>IIT Roorkee</strong></li>
+      <li>Named inventor on <strong>3 provisional US patents</strong> in multimodal neurodegenerative modeling</li>
+    </ul>
+  </section>
+
+  <footer>
+    <button class="share" id="shareBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/></svg>
+      Share this card
+    </button>
+  </footer>
+
+</main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  const toastEl = document.getElementById('toast');
+  let toastTimer;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1900);
+  }
+
+  async function copy(text){
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // Clipboard API needs HTTPS + a user gesture; fall back for the rest.
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.cssText = 'position:absolute;left:-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch {}
+      ta.remove();
+      return ok;
+    }
+  }
+
+  document.querySelectorAll('.copy').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ok = await copy(btn.dataset.copy);
+      if (!ok) return toast('Press and hold to copy');
+      btn.classList.add('done');
+      setTimeout(() => btn.classList.remove('done'), 1400);
+      toast('Copied');
+    });
+  });
+
+  document.getElementById('shareBtn').addEventListener('click', async () => {
+    const url = location.href.split('#')[0];
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'Soumil Bhandari', url });
+        return;
+      } catch (e) {
+        if (e.name === 'AbortError') return;   // user dismissed the sheet
+      }
+    }
+    toast(await copy(url) ? 'Link copied' : url);
+  });
+</script>
+
+</body>
+</html>

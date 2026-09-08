@@ -1,0 +1,11 @@
+# The card page itself is meant to be found — being searchable under your own
+# name helps. The resume and vCard are not: an indexed PDF with a personal
+# phone number in it is the usual way that number ends up on scraper lists.
+# Delete the two Disallow lines if you'd rather have the resume indexed too.
+
+User-agent: *
+Allow: /$
+Disallow: /resume.pdf
+Disallow: /contact.vcf
+
+Sitemap: https://soumilbhandari.github.io/sitemap.xml
