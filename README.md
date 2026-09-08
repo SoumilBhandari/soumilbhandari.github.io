@@ -103,6 +103,10 @@ The resume and vCard are **not**: an indexed PDF containing your personal phone
 number is the standard way that number reaches scraper lists. Anyone you hand the
 card to still gets both instantly; this only affects crawlers.
 
+The phone number is deliberately **not** in the page HTML for the same reason — it
+lives in `contact.vcf` and `resume.pdf`, both of which a person downloads on purpose
+and a crawler is told to skip. "Save Contact" still hands over a complete card.
+
 To index the resume too, delete the two `Disallow` lines. Note the asymmetry —
 allowing it later is one commit, but un-indexing something Google already cached
 is slow and partial.
