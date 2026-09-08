@@ -17,6 +17,8 @@ into the phone, **View Resume** opens the PDF. The recipient installs nothing.
 | `qr.png` / `qr.svg` | QR pointing at the site. SVG is the one to hand a printer. |
 | `qr.html` | Big scannable QR for a laptop screen or a printed table card. |
 | `og.png` | Link preview image — what shows when someone texts your link on. |
+| `share.html` | Fullscreen QR to show someone. Add to your home screen; it opens like an app. |
+| `manifest.webmanifest` | Makes `share.html` installable and chrome-free. |
 | `robots.txt` | Card indexable; resume and vCard are not (see below). |
 | `.nojekyll` | Tells GitHub Pages to serve the files as-is. |
 
@@ -73,6 +75,32 @@ usually mid-back.
 
 For a printed card, send the printer `qr.svg` — it's vector, so it stays crisp at
 any size. Put the QR on the back; it's the fallback for anyone whose NFC is off.
+
+## Showing it phone-to-phone
+
+**There is no phone-to-phone NFC.** Android Beam was deprecated in Android 10 and
+removed entirely by Android 14; its replacement, Quick Share, uses Bluetooth and
+Wi-Fi, not NFC. iOS has never allowed it — third-party card emulation needs an
+Apple entitlement limited to payments, transit, keys, badges and tickets, so
+"emulate a business-card tag" is not an option any app can build. Apple's NameDrop
+is the one exception and it is iPhone-to-iPhone only, exchanges Contacts entries
+only, and can't be pointed at this page.
+
+So when you have no card on you, the answer is the QR:
+
+```
+https://soumilbhandari.github.io/share.html
+```
+
+Open it, then Share → **Add to Home Screen**. It becomes an app icon that opens
+straight to a fullscreen QR on a white field, holding the screen awake so it
+doesn't dim mid-scan. Turn brightness up manually — a web page can't do that part.
+
+The other way to get a genuine tap: **stick an NFC tag on the back of your phone
+case.** It's a passive tag, so their phone reads it exactly like a card — no
+phone-to-phone protocol involved. Buy the ferrite-backed kind, sold as *on-metal*
+or *anti-metal* NFC tags; a plain sticker detunes badly against a phone's chassis
+and often won't read at all. Keep it clear of a MagSafe ring.
 
 ## Custom domain (optional)
 
