@@ -66,8 +66,10 @@ far more than a URL needs, and it's the chip Apple and Android both read without
 4. **Lock the tag** in the app once you've tested it — otherwise anyone with a
    phone can overwrite what your card points to.
 
-Test before you order anything printed: iPhone 11+ reads tags with the screen on
-and unlocked, no app open. Android needs NFC enabled in settings.
+Test before you order anything printed. iPhone 7 and newer read tags with the screen
+on and unlocked, no app open — hold the very top edge of the phone (where the cameras
+are) against the card. Android needs NFC switched on in settings, and its antenna is
+usually mid-back.
 
 For a printed card, send the printer `qr.svg` — it's vector, so it stays crisp at
 any size. Put the QR on the back; it's the fallback for anyone whose NFC is off.
