@@ -18,6 +18,7 @@ into the phone, **View Resume** opens the PDF. The recipient installs nothing.
 | `qr.html` | Big scannable QR for a laptop screen or a printed table card. |
 | `og.png` | Link preview image — what shows when someone texts your link on. |
 | `share.html` | Fullscreen QR to show someone. Add to your home screen; it opens like an app. |
+| `nfc.html` | Writes the URL to a blank tag from the browser (Android Chrome), with a verify and a lock step. |
 | `manifest.webmanifest` | Makes `share.html` installable and chrome-free. |
 | `robots.txt` | Card indexable; resume and vCard are not (see below). |
 | `.nojekyll` | Tells GitHub Pages to serve the files as-is. |
@@ -59,19 +60,39 @@ Drop `photo.jpg` in this folder and replace the monogram line in `index.html`:
 
 ## Writing the NFC card
 
-Buy **NTAG215** stickers or cards — ~$10 for 10 on Amazon. NTAG215 has 504 bytes,
-far more than a URL needs, and it's the chip Apple and Android both read without an app.
+The chip stores **one URL** — about 33 bytes. Nothing is installed on anyone's
+phone, nothing syncs, and no software runs. The phone reads the string, the browser
+opens it. That is the entire mechanism, and it's why changing your resume never
+means rewriting a tag.
 
-1. Install **NFC Tools** (free, iOS and Android).
+You only ever write a tag once.
+
+**On Android** — open <https://soumilbhandari.github.io/nfc.html> in Chrome. It
+writes, verifies and locks tags directly from the page using Web NFC. No app.
+
+**On iPhone** — Safari has no NFC write API, so you need an app:
+
+1. Install **NFC Tools** (free).
 2. Write → Add a record → **URL/URI** → `https://soumilbhandari.github.io`
-3. Write to the tag, hold the phone against it.
-4. **Lock the tag** in the app once you've tested it — otherwise anyone with a
-   phone can overwrite what your card points to.
+3. Tap Write, hold the tag to the top edge of the phone.
+4. Test it on a different phone, then **Other → Lock tag**.
 
-Test before you order anything printed. iPhone 7 and newer read tags with the screen
-on and unlocked, no app open — hold the very top edge of the phone (where the cameras
-are) against the card. Android needs NFC switched on in settings, and its antenna is
-usually mid-back.
+Lock only after testing — locking is permanent, and an unlocked tag can be
+overwritten by anyone holding a phone to it.
+
+### What to buy
+
+**NTAG215** is the safe default (504 bytes, universally read). NTAG213 is cheaper
+and still far more than a URL needs. Two things worth having:
+
+- **Blank white PVC cards** — write them yourself, work immediately.
+- **Ferrite-backed "on-metal" tags** — the kind to stick on a phone case. A plain
+  sticker against a phone chassis gets detuned and often won't read at all.
+
+Test with a real tag before ordering anything printed. iPhone 7 and newer read tags
+with the screen on and unlocked, no app open — hold the very top edge of the phone
+(where the cameras are) against the card. Android needs NFC switched on in settings,
+and its antenna is usually mid-back.
 
 For a printed card, send the printer `qr.svg` — it's vector, so it stays crisp at
 any size. Put the QR on the back; it's the fallback for anyone whose NFC is off.

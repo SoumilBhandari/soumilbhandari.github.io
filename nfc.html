@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Write my NFC tag</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0b0d">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0b0d; --surface:#141417; --surface-hi:#1b1b1f; --border:#26262b;
+    --text:#f3f1ed; --muted:#9d9993; --accent:#cfb991; --accent-dim:#8d7f5f;
+    --ok:#6fbf8b; --warn:#e0a05a; --err:#e07a6a; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    display:flex;justify-content:center;
+    padding:max(24px,env(safe-area-inset-top)) 20px max(32px,env(safe-area-inset-bottom));
+  }
+  .wrap{width:100%;max-width:440px}
+
+  h1{margin:0 0 4px;font-size:25px;font-weight:600;letter-spacing:-.02em}
+  .lede{margin:0 0 22px;color:var(--muted);font-size:14.5px}
+
+  .target{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:13px 15px;margin-bottom:18px;
+  }
+  .target .k{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-dim);font-weight:600}
+  .target .v{font-size:14px;word-break:break-all;margin-top:3px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+  button{
+    width:100%;display:flex;align-items:center;justify-content:center;gap:9px;
+    padding:15px 18px;margin-bottom:10px;
+    border-radius:var(--radius);border:1px solid transparent;
+    font:inherit;font-size:16px;font-weight:560;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .15s ease,border-color .15s ease,transform .12s ease;
+  }
+  button:active{transform:scale(.985)}
+  button:disabled{opacity:.45;cursor:default;transform:none}
+  .primary{background:var(--accent);color:#17150f}
+  .secondary{background:var(--surface);color:var(--text);border-color:var(--border)}
+  .danger{background:transparent;color:var(--err);border-color:#432724}
+
+  #status,#statusAlt{
+    margin:16px 0 0;padding:14px 15px;border-radius:var(--radius);
+    background:var(--surface);border:1px solid var(--border);
+    font-size:14px;white-space:pre-wrap;word-break:break-word;min-height:52px;
+  }
+  #status.ok{border-color:#2b4736;color:var(--ok)}
+  #status.warn{border-color:#4a3a24;color:var(--warn)}
+  #status.err{border-color:#432724;color:var(--err)}
+  #statusAlt.warn{border-color:#4a3a24;color:var(--warn)}
+  #status.busy{border-color:var(--accent-dim);color:var(--accent)}
+
+  .note{
+    margin-top:22px;padding:15px 16px;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    font-size:13.5px;color:var(--muted);
+  }
+  .note h2{margin:0 0 9px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-dim);font-weight:600}
+  .note ol{margin:0;padding-left:19px}
+  .note li{margin-bottom:7px}
+  .note li:last-child{margin-bottom:0}
+  .note strong{color:var(--text);font-weight:550}
+  .note code{
+    background:#0d0d10;border:1px solid var(--border);border-radius:5px;
+    padding:1px 5px;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:var(--accent);word-break:break-all;
+  }
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Write my NFC tag</h1>
+  <p class="lede">Programs a blank NTAG chip to open your card.</p>
+
+  <div class="target">
+    <div class="k">URL to be written</div>
+    <div class="v" id="url">https://soumilbhandari.github.io</div>
+  </div>
+
+  <!-- Shown only where Web NFC exists: Chrome/Edge on Android. -->
+  <div id="supported" class="hidden">
+    <button class="primary" id="writeBtn">Write tag</button>
+    <button class="secondary" id="readBtn">Read a tag (verify)</button>
+    <button class="danger" id="lockBtn">Lock tag permanently</button>
+    <div id="status">Ready. Tap “Write tag”, then hold the tag against the back of your phone.</div>
+  </div>
+
+  <div id="unsupported" class="hidden">
+    <div id="statusAlt" class="warn">This browser can’t write NFC tags — use the steps below.</div>
+  </div>
+
+  <div class="note" id="iosNote">
+    <h2>On iPhone, or any browser without Web NFC</h2>
+    <ol>
+      <li>Install <strong>NFC Tools</strong> (free, App Store or Play Store).</li>
+      <li><strong>Write</strong> → <strong>Add a record</strong> → <strong>URL/URI</strong>.</li>
+      <li>Enter <code>https://soumilbhandari.github.io</code> and confirm.</li>
+      <li>Tap <strong>Write</strong>, then hold the tag to the top of your phone.</li>
+      <li>Test it with a different phone, then use <strong>Other → Lock tag</strong> so nobody can overwrite it.</li>
+    </ol>
+  </div>
+
+</div>
+
+<script>
+  const URL_TO_WRITE = "https://soumilbhandari.github.io";
+  document.getElementById('url').textContent = URL_TO_WRITE;
+
+  const supported = 'NDEFReader' in window;
+  document.getElementById(supported ? 'supported' : 'unsupported').classList.remove('hidden');
+  if (supported) document.getElementById('iosNote').classList.add('hidden');
+
+  const statusEl = document.getElementById('status');
+  function say(msg, kind){
+    if (!statusEl) return;
+    statusEl.textContent = msg;
+    statusEl.className = kind || '';
+  }
+
+  // Web NFC needs HTTPS. Warn early rather than failing cryptically on a tap.
+  if (supported && !window.isSecureContext) {
+    say('NFC needs a secure (https) page. Open this at ' + URL_TO_WRITE + '/nfc.html', 'err');
+  }
+
+  function explain(err){
+    const m = { NotAllowedError: 'Permission denied, or NFC is switched off in system settings.',
+                NotSupportedError: 'No NFC hardware available.',
+                NotReadableError: 'Could not read the tag — hold it steadier against the phone.',
+                NetworkError:     'Transfer failed. The tag may be out of range or too small for this URL.',
+                AbortError:       'Cancelled.' };
+    return m[err.name] || (err.name + ': ' + err.message);
+  }
+
+  const btns = ['writeBtn','readBtn','lockBtn'].map(id => document.getElementById(id)).filter(Boolean);
+  const busy = on => btns.forEach(b => b.disabled = on);
+
+  document.getElementById('writeBtn')?.addEventListener('click', async () => {
+    busy(true);
+    say('Hold the tag against the back of your phone…', 'busy');
+    try {
+      await new NDEFReader().write({ records: [{ recordType: 'url', data: URL_TO_WRITE }] });
+      say('Written.\n\nVerify it with “Read a tag”, test it on another phone, then lock it.', 'ok');
+    } catch (e) {
+      say('Write failed. ' + explain(e), 'err');
+    }
+    busy(false);
+  });
+
+  document.getElementById('readBtn')?.addEventListener('click', async () => {
+    busy(true);
+    say('Hold the tag against the back of your phone…', 'busy');
+    try {
+      const ndef = new NDEFReader();
+      const ctl  = new AbortController();
+      // Don't leave the scanner armed forever if no tag ever arrives.
+      const timer = setTimeout(() => { ctl.abort(); say('No tag detected — try again.', 'warn'); busy(false); }, 15000);
+
+      ndef.onreading = ({ message, serialNumber }) => {
+        clearTimeout(timer);
+        const out = message.records.map(r => {
+          if (r.recordType === 'url' || r.recordType === 'text') {
+            return r.recordType + ': ' + new TextDecoder(r.encoding || 'utf-8').decode(r.data);
+          }
+          return r.recordType + ': (' + (r.data?.byteLength ?? 0) + ' bytes)';
+        }).join('\n');
+
+        const hit = message.records.some(r =>
+          r.recordType === 'url' &&
+          new TextDecoder(r.encoding || 'utf-8').decode(r.data).replace(/\/$/,'') === URL_TO_WRITE.replace(/\/$/,''));
+
+        say((hit ? '✓ This tag points at your card.\n\n' : '⚠ This tag does NOT match your URL.\n\n')
+            + out + '\n\nSerial: ' + serialNumber, hit ? 'ok' : 'warn');
+        ctl.abort();
+        busy(false);
+      };
+      await ndef.scan({ signal: ctl.signal });
+    } catch (e) {
+      say('Read failed. ' + explain(e), 'err');
+      busy(false);
+    }
+  });
+
+  document.getElementById('lockBtn')?.addEventListener('click', async () => {
+    if (!confirm('Locking is PERMANENT. The tag can never be rewritten.\n\nOnly do this once you have tested that it opens your card. Continue?')) return;
+    busy(true);
+    say('Hold the tag against the back of your phone to lock it…', 'busy');
+    try {
+      await new NDEFReader().makeReadOnly();
+      say('Locked. This tag is now read-only forever.', 'ok');
+    } catch (e) {
+      say('Lock failed. ' + explain(e) + '\n\nNot every chip supports locking over Web NFC — NFC Tools (Other → Lock tag) can usually still do it.', 'err');
+    }
+    busy(false);
+  });
+</script>
+</body>
+</html>
